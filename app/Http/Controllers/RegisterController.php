@@ -19,7 +19,7 @@ class RegisterController extends Controller
         //dd($request);
         //dd($request->get('username'));
 
-        //Modificar el $request
+        //Modificar el Request
         $request->request->add(['username' => Str::slug($request->username)]);
 
         //Validacion->ver en documentacion laravel
@@ -38,5 +38,19 @@ class RegisterController extends Controller
             'password' =>Hash::make($request->password)
         ]);
         
+        //Autenticar
+
+        // auth()->attempt([
+        //     'email' => $request->email,
+        //     'password' =>$request->password
+        // ]);
+
+        //Autenticar de otra forma
+
+        auth()->attempt($request->only('email','password'));
+        
+        //Redireccionar 
+
+        return redirect()->route('posts.index');
     }
 }
